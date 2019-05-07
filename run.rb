@@ -46,6 +46,13 @@ def start_menu
 
 end
 
+def difficulty
+  prompt = TTY::Prompt.new
+  category = %w(Easy Medium Hard)
+  prompt.select('Choose your difficulty?', category, filter: true)
+end
+
+
 
 def category
   prompt = TTY::Prompt.new
@@ -80,6 +87,7 @@ def run
   name = header
   user = get_user(name)
   game = Game.create(user_id: user.id, score: 0)
+  difficulty
   cat = category
   game.initialize_game(cat)
   question_header
