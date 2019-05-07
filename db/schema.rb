@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_03_135402) do
+ActiveRecord::Schema.define(version: 2019_05_07_105924) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "game_id"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 2019_05_03_135402) do
   create_table "games", force: :cascade do |t|
     t.integer "user_id"
     t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.integer "game_id"
+    t.string "item"
+    t.float "price"
+    t.float "guess"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
