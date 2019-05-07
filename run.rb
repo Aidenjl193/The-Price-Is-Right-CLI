@@ -1,3 +1,5 @@
+require_relative './config/environment'
+require 'sinatra/activerecord/rake'
 require 'tty-prompt'
 require 'artii'
 
@@ -76,8 +78,9 @@ end
 def get_user(name)
   user = User.get_user_by_name(name)
   if !user
-    user.create(name)
+    user = user.create(name)
   end
+  user
 end
 
 def diff(a,b)
@@ -88,22 +91,22 @@ def run
   puts "enter name"
   name = gets.chomp
   user = get_user(name)
-  Game.create(user_id: user.id)
-  Game.initialize_game(category)
-
-  question = user.get_question
-  while quesiton 
-    puts "Guess the price of #{question.name}"
+  game = Game.create(user_id: user.id, score: 0)
+  game.initialize_game("bikes")
+  question = game.get_question
+  while question 
+    puts "Guess the price of #{question.item}"
     input = gets.chomp
-    question.answer = input
+    question.guess = input
     question.save
-    if diff(input, question.price) < 50 
+    if diff(input.to_i, question.price) < 50 
       puts "Correct"
       game.score += 1
       game.save
     else 
       puts "Incorrect"
     end
-    question = user.get_question
+    question = game.get_question
   end
 end
+run

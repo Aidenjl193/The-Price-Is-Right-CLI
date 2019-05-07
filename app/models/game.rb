@@ -16,8 +16,6 @@ class Game < ActiveRecord::Base
   end
 
   def initialize_game(category)
-    score = 0
-    self.save
     items = Scraper.category(category)
     for i in 0..10 do
       Question.create(game_id: self.id, item: items[i][:name], price: items[i][:price])
