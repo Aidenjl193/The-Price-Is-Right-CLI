@@ -17,11 +17,14 @@ def header
   puts a.asciify('The Price Is Right')
   puts "The aim of the game is to successfully guess the price of items....or to get as close as you can"
   puts "------------------------------------------------------"
-  puts "|| 1. You will select a category for your items.     ||"
+  puts "|| 1. You will select a category your difficulty     ||"
+  puts "|| Range - Easy: 5    Medium: 10     Hard: 30        ||"
   puts "------------------------------------------------------"
-  puts "|| 2. You will try and guess the price of your items.||"
+  puts "|| 2. You will select a category for your items.     ||"
   puts "------------------------------------------------------"
-  puts "|| 3. You will end up either a winner or loser.      ||"
+  puts "|| 3. You will try and guess the price of your items.||"
+  puts "------------------------------------------------------"
+  puts "|| 4. You will end up either a winner or loser.      ||"
  puts "------------------------------------------------------"
  puts "What is your name?"
  name = gets.chomp
@@ -117,7 +120,8 @@ def run
     end
     question = game.get_question
   end
-  puts "You score #{game.score} out of 10"
+  a = Artii::Base.new :font => 'slant'
+  puts a.asciify("You scored #{game.score} out of 10")
   goodbye
 end
 run
