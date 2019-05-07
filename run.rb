@@ -112,5 +112,4 @@ def run
   end
   puts "You score #{game.score} out of 10"
 end
-
 run

@@ -17,8 +17,8 @@ class Game < ActiveRecord::Base
 
   def initialize_game(category)
     items = Scraper.category(category)
-    for i in 0..9 do
-      Question.create(game_id: self.id, item: items[i][:name], price: items[i][:price])
+    items.each do |item|
+      Question.create(game_id: self.id, item: item[:name], price: item[:price])
     end
   end
 end
