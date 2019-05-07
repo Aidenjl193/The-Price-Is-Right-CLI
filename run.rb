@@ -3,6 +3,14 @@ require 'sinatra/activerecord/rake'
 require 'tty-prompt'
 require 'artii'
 
+def difficulties
+  {
+  "Hard" => 5,
+  "Medium" => 10,
+  "Easy" => 30
+  }
+end
+
 def header
   a = Artii::Base.new :font => 'slant'
   puts a.asciify('The Price Is Right')
@@ -70,6 +78,8 @@ def get_user(name)
   user = User.get_user_by_name(name)
   if !user
     user = User.create(name: name)
+  else
+    puts "Welcome back #{name}"
   end
   user
 end
@@ -87,7 +97,7 @@ def run
   name = header
   user = get_user(name)
   game = Game.create(user_id: user.id, score: 0)
-  difficulty
+  diff_range = difficulties[difficulty]
   cat = category
   game.initialize_game(cat)
   question_header
@@ -97,12 +107,12 @@ def run
     input = gets.chomp
     question.guess = input
     question.save
-    if diff(input.to_i, question.price) < 50 
-      puts "Correct"
+    if diff(input.to_i, question.price) < diff_range
+      puts "Correct, the price was #{question.price.to_i}"
       game.score += 1
       game.save
     else 
-      puts "Incorrect"
+      puts "Incorrect, the price was #{question.price.to_i}"
     end
     question = game.get_question
   end
