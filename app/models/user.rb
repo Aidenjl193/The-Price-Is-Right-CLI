@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
     Game.new(user_id: id)
   end
 
+  def generate_game
+    
+  end
+
   def games
     Game.all.select{|game| game.user_id == id}
   end

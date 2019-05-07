@@ -1,9 +1,9 @@
 class Game < ActiveRecord::Base
   belongs_to :user
-  has_many :answers
+  has_many :questions
 
-  def answers
-    Answer.select{|answer| answer.game_id == id}
+  def questions
+    Question.select{|question| question.game_id == id}
   end
 
   def get_question
