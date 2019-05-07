@@ -13,7 +13,7 @@ def welcome
   puts "The aim of the game is to successfully guess the price of items....or to get as close as you can"
   puts "What is your name?"
   name = gets.chomp
-  puts "Hello #{name.upcase} selet an option from the menu"
+  #puts "Hello #{name.upcase} selet an option from the menu"
   name
 end
 
@@ -28,7 +28,7 @@ def start_menu
 
   case selection
   when 'Play'
-    category
+        category
   when 'Instructions'
     instructions
   when 'Exit game'
@@ -41,10 +41,11 @@ end
 
 def category
   prompt = TTY::Prompt.new
-  category = %w(Technology Home Baby Toys Womens Mens Watches Games)
+  category = %w(Electronics Home Baby Children Womens Mens Watches Games)
   prompt.select('Choose your category?', category, filter: true)
+  #category
+  #category = ["Technology", "Home", "Baby", "Toys", "Womens", "Mens", "Watches", "Games"].sample
 end
-
 
 
 def instructions
@@ -78,7 +79,7 @@ end
 def get_user(name)
   user = User.get_user_by_name(name)
   if !user
-    user = user.create(name)
+    user = User.create(name: name)
   end
   user
 end
@@ -88,11 +89,12 @@ def diff(a,b)
 end
 
 def run
-  puts "enter name"
-  name = gets.chomp
+  header
+  name = welcome
   user = get_user(name)
   game = Game.create(user_id: user.id, score: 0)
-  game.initialize_game("bikes")
+  cat = category
+  game.initialize_game(cat)
   question = game.get_question
   while question 
     puts "Guess the price of #{question.item}"
@@ -108,5 +110,7 @@ def run
     end
     question = game.get_question
   end
+  puts "You score #{game.score} out of 10"
 end
+
 run
