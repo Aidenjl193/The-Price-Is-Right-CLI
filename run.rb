@@ -2,6 +2,7 @@ require_relative './config/environment'
 require 'sinatra/activerecord/rake'
 require 'tty-prompt'
 require 'artii'
+require 'colorize'
 
 def difficulties
   {
@@ -108,11 +109,11 @@ def run
     question.guess = input
     question.save
     if diff(input.to_i, question.price) < diff_range
-      puts "Correct, the price was #{question.price.to_i}"
+      puts  "Correct, the price was #{question.price.to_i}".colorize(:green)
       game.score += 1
       game.save
     else 
-      puts "Incorrect, the price was #{question.price.to_i}"
+      puts "Incorrect, the price was #{question.price.to_i}".colorize(:red)
     end
     question = game.get_question
   end
