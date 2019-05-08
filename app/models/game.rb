@@ -15,6 +15,17 @@ class Game < ActiveRecord::Base
     return nil
   end
 
+  def destroy_questions
+    questions.each do |question|
+      question.destroy
+    end
+  end
+
+  def destroy_recursive
+    destroy_questions
+    self.destroy
+  end
+
   def initialize_game(category)
     items = Scraper.category(category)
     items.each do |item|

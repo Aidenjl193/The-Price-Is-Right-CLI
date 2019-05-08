@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     #culls games with a nil score or has no questions
     games.each do |game|
       if(!game.score || game.questions.length == 0)
-        game.destroy
+        game.destroy_recursive
       end
     end
   end
@@ -33,6 +33,14 @@ class User < ActiveRecord::Base
   
   def high_score
     best_game.score
+  end
+
+  def stats
+    {
+      :games_played => games.length,
+      :high_score => high_score,
+      :accuracy => accuracy.to_i
+    }
   end
 
   def change_name(new_name)
@@ -53,12 +61,8 @@ class User < ActiveRecord::Base
   end
   
   def self.clear_user_data(user)
-    #Recursively clear the user data
     user.games.each do |game|
-      game.questions.each do |question|
-        question.destroy
-      end
-      game.destroy
+      game.destroy_recursive
     end
   end
 
