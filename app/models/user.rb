@@ -13,8 +13,18 @@ class User < ActiveRecord::Base
     Game.all.select{|game| game.user_id == id}
   end
 
+  def cull_games
+    #culls games with a nil score or has no questions
+    games.each do |game|
+      if(!game.score || game.questions.length == 0)
+        game.destroy_recursive
+      end
+    end
+  end
+
   def accuracy
-    (games.map{|game| game.score / game.answers.length}.sum / games.length) * 100
+    cull_games
+    (games.sum{|game| game.score.to_f / game.questions.length.to_f} / games.length.to_f) * 100
   end
 
   def best_game
@@ -23,6 +33,14 @@ class User < ActiveRecord::Base
   
   def high_score
     best_game.score
+  end
+
+  def stats
+    {
+      :games_played => games.length,
+      :high_score => high_score,
+      :accuracy => accuracy.to_i
+    }
   end
 
   def change_name(new_name)
@@ -34,7 +52,6 @@ class User < ActiveRecord::Base
   end
 
   def self.scoreboard
-    #get the top 5 users
     top_five_users.map do |user|
       {
         :name => user.name,
@@ -42,14 +59,10 @@ class User < ActiveRecord::Base
       }
     end
   end
-
+  
   def self.clear_user_data(user)
-    #Recursively clear the user data
     user.games.each do |game|
-      game.questions.each do |question|
-        question.destroy
-      end
-      game.destroy
+      game.destroy_recursive
     end
   end
 

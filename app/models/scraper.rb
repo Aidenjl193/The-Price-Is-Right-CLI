@@ -17,10 +17,19 @@ class Scraper
       return nil
     end
     return_arr = []
-    #go to a random page
-    for i in 0..9 do
+    #go to 2 random pages
+    2.times do
       url = "https://www.argos.co.uk/search/#{cat}/opt/page:#{rand(page_count + 1)}/"
-      return_arr << products_from_page(url).sample
+      page_products = products_from_page(url)
+      #get 5 random products from that page
+      for i in 0..4 do
+        product = page_products.sample
+        if(!return_arr.include?(product))
+          return_arr << product
+        else
+          i -= 1
+        end
+      end
     end
     return_arr
   end
