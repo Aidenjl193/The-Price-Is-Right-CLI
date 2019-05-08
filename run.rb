@@ -141,4 +141,5 @@ def run
   puts "You score #{game.score} out of 10"
   goodbye
 end
+binding.pry
 run
