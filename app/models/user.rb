@@ -25,6 +25,14 @@ class User < ActiveRecord::Base
     best_game.score
   end
 
+  def change_name(new_name)
+    self.update(name: new_name)
+  end
+
+  def self.top_five_users
+
+  end
+
   def self.scoreboard
     #get the top 5 users
     all.sort{|a, b| b.high_score <=> a.high_score}[0..4].map do |user|
