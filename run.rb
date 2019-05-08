@@ -5,6 +5,7 @@ require 'artii'
 require 'colorize'
 
 
+
 def difficulties
   {
   "Hard" => 5,
@@ -20,9 +21,8 @@ end
 
 def header
   a = Artii::Base.new :font => 'slant'
-  
   puts a.asciify('The Price Is Right!!!')
-  puts Rainbow("The aim of the game is to successfully guess the price of items....or to get as close as you can").underline.bright
+  puts Rainbow("The aim of the game is to successfully guess the price of items💰💰💰💰....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 1. You will select a category your difficulty     ||").bright
   puts Rainbow("|| Range - Easy: 5    Medium: 10     Hard: 30        ||").bright
@@ -32,9 +32,8 @@ def header
   puts Rainbow("|| 3. You will try and guess the price of your items.||").bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 4. You will end up either a winner or loser.      ||").bright
-  puts Rainbow("------------------------------------------------------").bright
-  puts Rainbow("What is your name?").underline.bright
- 
+ puts Rainbow("------------------------------------------------------").bright
+ puts Rainbow("What is your name?").underline.bright
  name = gets.chomp
  name
 end
@@ -43,7 +42,6 @@ def goodbye
   a = Artii::Base.new :font => 'slant'
   puts a.asciify('Goodbye')
 end
-
 
 
 def start_menu
@@ -87,7 +85,7 @@ def loading
     sleep(0.1)
   end
   
-  spinner.success('(successful)')
+  spinner.success('🍾🍾🍾🍾(successful)🍾🍾🍾🍾')
 end
 
 def question_header
@@ -100,7 +98,7 @@ def get_user(name)
   if !user
     user = User.create(name: name)
   else
-    puts "Welcome back #{name}"
+    puts "👋👋👋👋Welcome back #{name}👋👋👋👋"
   end
   user
 end
@@ -108,6 +106,8 @@ end
 def diff(a,b)
   (a - b).abs
 end
+
+
 
 
 def run
@@ -130,15 +130,18 @@ def run
     question.guess = input
     question.save
     if diff(input.to_i, question.price) < diff_range
-      puts  "Correct, the price was #{question.price.to_i}".colorize(:green)
+      puts  "Correct, the price was #{question.price.to_i}👍😁".colorize(:green)
       game.score += 1
       game.save
     else 
-      puts "Incorrect, the price was #{question.price.to_i}".colorize(:red)
+      puts "Incorrect, the price was #{question.price.to_i}👎😭".colorize(:red)
     end
     question = game.get_question
   end
-  puts "You score #{game.score} out of 10"
+  a = Artii::Base.new :font => 'slant'
+puts a.asciify("You scored #{game.score} out of 10")
   goodbye
 end
+
 run
+
