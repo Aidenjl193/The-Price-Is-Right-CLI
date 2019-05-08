@@ -107,10 +107,6 @@ def diff(a,b)
   (a - b).abs
 end
 
-def write_question
-  puts "-----------------------------------------------------"
-  puts "- Guess the price of #{question.item}                "
-end
 
 def run
   name = header
@@ -145,8 +141,11 @@ def run
   goodbye
 end
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 binding.pry
 >>>>>>> f021d47dce8978c31d045b1d52d5ce6f5f163f21
+=======
+>>>>>>> de651d72f1b5183b6f0c6d3cff1b33aaa95db9f0
 run
