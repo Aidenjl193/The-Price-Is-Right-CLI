@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative './config/environment'
 require 'sinatra/activerecord/rake'
 require 'tty-prompt'
@@ -55,7 +56,7 @@ def start_menu
 
   case selection
   when 'Play'
-        header
+        return
   when 'Debug'
     binding.pry
     "   "
@@ -129,7 +130,8 @@ def user_stats(user)
   a = Artii::Base.new :font => 'slant'
   puts a.asciify("YOUR STATS")
   table_data = [{
-     :games_played => user.stats[:high_score], 
+     :high_score => user.stats[:high_score], 
+     :games_played => user.stats[:games_played], 
      :accuracy => user.stats[:accuracy]
     }]
   Formatador.display_table(table_data)
