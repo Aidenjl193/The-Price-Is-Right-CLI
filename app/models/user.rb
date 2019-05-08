@@ -30,12 +30,12 @@ class User < ActiveRecord::Base
   end
 
   def self.top_five_users
-
+    all.sort{|a, b| b.high_score <=> a.high_score}[0..4]
   end
 
   def self.scoreboard
     #get the top 5 users
-    all.sort{|a, b| b.high_score <=> a.high_score}[0..4].map do |user|
+    top_five_users.map do |user|
       {
         :name => user.name,
         :high_score => user.high_score
