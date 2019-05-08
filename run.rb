@@ -21,12 +21,16 @@ def brk
     "
 end
 
+def line
+  puts Rainbow("-----------------------------------------------------------------------------------------------------------------").bright.blink
+end
+
 def header
   a = Artii::Base.new :font => 'slant'
   puts a.asciify('The Price Is Right!!!')
   puts Rainbow("The aim of the game is to successfully guess the price of items💰💰💰💰....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
-  puts Rainbow("|| 1. You will select a category your difficulty     ||").bright
+  puts Rainbow("|| 1. You will select your difficulty                ||").bright
   puts Rainbow("|| Range - Easy: 5    Medium: 10     Hard: 30        ||").bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 2. You will select a category for your items.     ||").bright
@@ -96,7 +100,7 @@ end
 
 def question_header
   a = Artii::Base.new :font => 'slant'
-  puts a.asciify('QUESTIONS')
+  puts a.asciify('QUESTIONS????')
 end
 
 def get_user(name)
@@ -104,7 +108,7 @@ def get_user(name)
   if !user
     user = User.create(name: name)
   else
-    puts "👋👋👋👋 Welcome back #{name} 👋👋👋"
+    puts Rainbow("👋👋👋👋 Welcome back #{name} 👋👋👋").bright.underline
   end
   user
 end
@@ -142,15 +146,19 @@ def run
   start_menu
   name = header
   user = get_user(name)
+  line
   brk
   game = Game.create(user_id: user.id, score: 0)
+  line
   brk
   diff_range = difficulties[difficulty]
   cat = category
   loading
   game.initialize_game(cat)
+  line
   brk
   question_header
+  line
   brk
   question = game.get_question
   while question 
