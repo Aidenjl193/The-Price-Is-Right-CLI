@@ -9,10 +9,6 @@ class User < ActiveRecord::Base
     Game.new(user_id: id)
   end
 
-  def generate_game
-    
-  end
-
   def games
     Game.all.select{|game| game.user_id == id}
   end
@@ -27,6 +23,37 @@ class User < ActiveRecord::Base
   
   def high_score
     best_game.score
+  end
+
+  def self.scoreboard
+    #get the top 5 users
+    all.sort{|a, b| b.high_score <=> a.high_score}[0..4].map do |user|
+      {
+        :name => user.name,
+        :high_score => user.high_score
+      }
+    end
+  end
+
+  def self.clear_user_data(user)
+    #Recursively clear the user data
+    user.games.each do |game|
+      game.questions.each do |question|
+        question.destroy
+      end
+      game.destroy
+    end
+  end
+
+  def self.destroy_user(user)
+    clear_user_data(user)
+    user.destroy
+  end
+
+  def self.destroy_all_users
+    all.each do |user|
+      destroy_user(user)
+    end
   end
 end
     

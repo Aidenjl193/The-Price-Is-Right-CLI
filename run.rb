@@ -124,4 +124,5 @@ def run
   puts a.asciify("You scored #{game.score} out of 10")
   goodbye
 end
+binding.pry
 run
