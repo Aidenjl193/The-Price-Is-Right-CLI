@@ -4,6 +4,7 @@ require 'tty-prompt'
 require 'artii'
 require 'colorize'
 
+
 def difficulties
   {
   "Hard" => 5,
@@ -12,21 +13,26 @@ def difficulties
   }
 end
 
+def brk
+    puts "
+    "
+end
+
 def header
   a = Artii::Base.new :font => 'slant'
-  puts a.asciify('The Price Is Right')
-  puts "The aim of the game is to successfully guess the price of items....or to get as close as you can"
-  puts "------------------------------------------------------"
-  puts "|| 1. You will select a category your difficulty     ||"
-  puts "|| Range - Easy: 5    Medium: 10     Hard: 30        ||"
-  puts "------------------------------------------------------"
-  puts "|| 2. You will select a category for your items.     ||"
-  puts "------------------------------------------------------"
-  puts "|| 3. You will try and guess the price of your items.||"
-  puts "------------------------------------------------------"
-  puts "|| 4. You will end up either a winner or loser.      ||"
- puts "------------------------------------------------------"
- puts "What is your name?"
+  puts a.asciify('The Price Is Right!!!')
+  puts Rainbow("The aim of the game is to successfully guess the price of items....or to get as close as you can").underline.bright
+  puts Rainbow("------------------------------------------------------").bright
+  puts Rainbow("|| 1. You will select a category your difficulty     ||").bright
+  puts Rainbow("|| Range - Easy: 5    Medium: 10     Hard: 30        ||").bright
+  puts Rainbow("------------------------------------------------------").bright
+  puts Rainbow("|| 2. You will select a category for your items.     ||").bright
+  puts Rainbow("------------------------------------------------------").bright
+  puts Rainbow("|| 3. You will try and guess the price of your items.||").bright
+  puts Rainbow("------------------------------------------------------").bright
+  puts Rainbow("|| 4. You will end up either a winner or loser.      ||").bright
+ puts Rainbow("------------------------------------------------------").bright
+ puts Rainbow("What is your name?").underline.bright
  name = gets.chomp
  name
 end
@@ -61,7 +67,7 @@ end
 def difficulty
   prompt = TTY::Prompt.new
   category = %w(Easy Medium Hard)
-  prompt.select('Choose your difficulty?', category, filter: true)
+  prompt.select(Rainbow('Choose your difficulty?').underline.bright, category, filter: true)
 end
 
 
@@ -69,9 +75,18 @@ end
 def category
   prompt = TTY::Prompt.new
   category = %w(Electronics Home Baby Children Womens Mens Watches Games)
-  prompt.select('Choose your category?', category, filter: true)
+  prompt.select(Rainbow('Choose your category?').underline.bright, category, filter: true)
 end
 
+def loading
+  spinner = TTY::Spinner.new("[:spinner] Loading Questions")
+  100.times do
+    spinner.spin
+    sleep(0.1)
+  end
+  
+  spinner.success('(successful)')
+end
 
 def question_header
   a = Artii::Base.new :font => 'slant'
@@ -100,14 +115,19 @@ end
 def run
   name = header
   user = get_user(name)
+  brk
   game = Game.create(user_id: user.id, score: 0)
+  brk
   diff_range = difficulties[difficulty]
   cat = category
+  loading
   game.initialize_game(cat)
+  brk
   question_header
+  brk
   question = game.get_question
   while question 
-    puts "- Guess the price of #{question.item}"
+    puts Rainbow("- Guess the price of #{question.item}").bright.underline
     input = gets.chomp
     question.guess = input
     question.save
@@ -124,4 +144,5 @@ def run
   puts a.asciify("You scored #{game.score} out of 10")
   goodbye
 end
+
 run
