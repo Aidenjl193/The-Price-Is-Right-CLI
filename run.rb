@@ -20,6 +20,7 @@ end
 
 def header
   a = Artii::Base.new :font => 'slant'
+<<<<<<< HEAD
   puts a.asciify('The Price Is Right!!!')
   puts Rainbow("The aim of the game is to successfully guess the price of items....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
@@ -33,6 +34,18 @@ def header
   puts Rainbow("|| 4. You will end up either a winner or loser.      ||").bright
  puts Rainbow("------------------------------------------------------").bright
  puts Rainbow("What is your name?").underline.bright
+=======
+  puts a.asciify('The Price Is Right')
+  puts "The aim of the game is to successfully guess the price of items....or to get as close as you can"
+  puts "------------------------------------------------------"
+  puts "|| 1. You will select a category for your items.     ||"
+  puts "------------------------------------------------------"
+  puts "|| 2. You will try and guess the price of your items.||"
+  puts "------------------------------------------------------"
+  puts "|| 3. You will end up either a winner or loser.      ||"
+ puts "------------------------------------------------------"
+ puts "What is your name?"
+>>>>>>> 4bcc796c9408e60ff7baea6de52c0603ff783341
  name = gets.chomp
  name
 end
@@ -136,8 +149,7 @@ def run
     end
     question = game.get_question
   end
-  a = Artii::Base.new :font => 'slant'
-  puts a.asciify("You scored #{game.score} out of 10")
+  puts "You score #{game.score} out of 10"
   goodbye
 end
 <<<<<<< HEAD
