@@ -22,13 +22,12 @@ class Scraper
       url = "https://www.argos.co.uk/search/#{cat}/opt/page:#{rand(page_count + 1)}/"
       page_products = products_from_page(url)
       #get 5 random products from that page
-      for i in 0..4 do
+      5.times do
         product = page_products.sample
-        if(!return_arr.include?(product))
-          return_arr << product
-        else
-          i -= 1
+        while(return_arr.include?(product))
+          product = page_products.sample
         end
+        return_arr << product
       end
     end
     return_arr
