@@ -25,9 +25,13 @@ def line
   puts Rainbow("-----------------------------------------------------------------------------------------------------------------").bright.blink
 end
 
-def header
+def title
   a = Artii::Base.new :font => 'slant'
-  puts a.asciify('The Price Is Right!!!')
+  puts a.asciify('THE PRICE IS RIGHT!!!')
+end
+
+def header
+ 
   puts Rainbow("The aim of the game is to successfully guess the price of items💰💰💰💰....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 1. You will select your difficulty                ||").bright
@@ -42,6 +46,8 @@ def header
  puts Rainbow("What is your name?").underline.bright
  name = gets.chomp
  name
+  a = Artii::Base.new :font => 'slant'
+  puts a.asciify("#{name.upcase} COME ON DOWN!!!")  
 end
 
 def goodbye
@@ -68,6 +74,7 @@ def start_menu
   when 'Exit game'
     a = Artii::Base.new :font => 'slant'  
     puts a.asciify('Goodbye!')
+    exit
   end
 
 end
@@ -143,6 +150,8 @@ end
 
 
 def run
+  money_animation
+  title
   start_menu
   name = header
   user = get_user(name)
@@ -180,6 +189,7 @@ puts a.asciify("You scored #{game.score} out of 10")
 rank
 user_stats(user)
   goodbye
+
 end
 
 run
