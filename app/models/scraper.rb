@@ -12,7 +12,7 @@ class Scraper
   end
   
   def self.category(cat)
-    page_count = get_page_count(cat)
+    page_count = get_page_count(cat) - 1
     if(page_count == 0)
       return nil
     end
