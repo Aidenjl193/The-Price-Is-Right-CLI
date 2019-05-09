@@ -31,7 +31,7 @@ def header
   puts Rainbow("The aim of the game is to successfully guess the price of items💰💰💰💰....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 1. You will select your difficulty                ||").bright
-  puts Rainbow("|| Range - Easy: 5    Medium: 10     Hard: 30        ||").bright
+  puts Rainbow("|| Range each way - Easy: 30    Medium: 10   Hard: 5 ||").bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 2. You will select a category for your items.     ||").bright
   puts Rainbow("------------------------------------------------------").bright
