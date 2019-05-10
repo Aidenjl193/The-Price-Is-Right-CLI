@@ -9,15 +9,15 @@ require 'pry'
 
 def difficulties
   {
-  "Hard" => 5,
-  "Medium" => 10,
-  "Easy" => 30
+    "Hard" => 5,
+    "Medium" => 10,
+    "Easy" => 30
   }
 end
 
 
 def brk
-    puts "
+  puts "
     "
 end
 
@@ -31,7 +31,7 @@ def title
 end
 
 def header
- 
+  
   puts Rainbow("The aim of the game is to successfully guess the price of items💰💰💰💰....or to get as close as you can").underline.bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 1. You will select your difficulty                ||").bright
@@ -42,10 +42,9 @@ def header
   puts Rainbow("|| 3. You will try and guess the price of your items.||").bright
   puts Rainbow("------------------------------------------------------").bright
   puts Rainbow("|| 4. You will end up either a winner or loser.      ||").bright
- puts Rainbow("------------------------------------------------------").bright
- puts Rainbow("What is your name?").underline.bright
- name = gets.chomp
- name
+  puts Rainbow("------------------------------------------------------").bright
+  puts Rainbow("What is your name?").underline.bright
+  name = gets.chomp
   a = Artii::Base.new :font => 'slant'
   puts a.asciify("#{name.upcase} COME ON DOWN!!!")  
 end
@@ -55,18 +54,47 @@ def goodbye
   puts a.asciify('Goodbye')
 end
 
+def settings
+  puts Rainbow("What is your name?").underline.bright
+  name = gets.chomp
+  user = User.get_user_by_name(name)
+  if(!user)
+    puts Rainbow("No account with that name!").underline.bright
+    settings
+  end
+  
+  menu = TTY::Prompt.new
+  selection = menu.select("") do |a|
+    a.choice 'Change name'
+    a.choice 'Exit'
+  end
+
+  case selection
+  when 'Change name'
+    puts Rainbow("Enter your new name!").underline.bright
+    new_name = gets.chomp
+    user.change_name(new_name)
+    puts Rainbow("Your new name is: #{new_name}!").underline.bright
+  when 'exit'
+    return
+  end
+end
+
 
 def start_menu
   menu = TTY::Prompt.new
   selection = menu.select("") do |a|
     a.choice 'Play'
+    a.choice 'Settings'
     a.choice 'Debug'
     a.choice 'Exit game'
   end
 
   case selection
   when 'Play'
-        return
+    return
+  when 'Settings'
+    settings
   when 'Debug'
     binding.pry
     "   "
@@ -127,25 +155,20 @@ end
 def rank
   a = Artii::Base.new :font => 'slant'
   puts a.asciify("HIGH SCORES")
-table_data = [
-  { :name => User.scoreboard[0][:name], :score => User.scoreboard[0][:high_score]},
-  { :name => User.scoreboard[1][:name], :score => User.scoreboard[1][:high_score]},
-  { :name => User.scoreboard[2][:name], :score => User.scoreboard[2][:high_score]},
-  { :name => User.scoreboard[3][:name], :score => User.scoreboard[3][:high_score]},
-  { :name => User.scoreboard[4][:name], :score => User.scoreboard[4][:high_score]}
-]
-Formatador.display_table(table_data)
+  table_data = [
+    { :name => User.scoreboard[0][:name], :score => User.scoreboard[0][:high_score]},
+    { :name => User.scoreboard[1][:name], :score => User.scoreboard[1][:high_score]},
+    { :name => User.scoreboard[2][:name], :score => User.scoreboard[2][:high_score]},
+    { :name => User.scoreboard[3][:name], :score => User.scoreboard[3][:high_score]},
+    { :name => User.scoreboard[4][:name], :score => User.scoreboard[4][:high_score]}
+  ]
+  Formatador.display_table(table_data)
 end
 
 def user_stats(user)
   a = Artii::Base.new :font => 'slant'
   puts a.asciify("YOUR STATS")
-  table_data = [{
-     :high_score => user.stats[:high_score], 
-     :games_played => user.stats[:games_played], 
-     :accuracy => user.stats[:accuracy]
-    }]
-  Formatador.display_table(table_data)
+  Formatador.display_table(user.stats)
 end
 
 
@@ -185,9 +208,9 @@ def run
     question = game.get_question
   end
   a = Artii::Base.new :font => 'slant'
-puts a.asciify("You scored #{game.score} out of 10")
-rank
-user_stats(user)
+  puts a.asciify("You scored #{game.score} out of 10")
+  rank
+  user_stats(user)
   goodbye
 
 end

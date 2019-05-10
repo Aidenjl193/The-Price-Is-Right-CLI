@@ -36,11 +36,11 @@ class User < ActiveRecord::Base
   end
 
   def stats
-    {
+    [{
       :games_played => games.length,
       :high_score => high_score,
-      :accuracy => accuracy.to_i
-    }
+      :accuracy => "#{accuracy.to_i}%"
+    }]
   end
 
   def change_name(new_name)
